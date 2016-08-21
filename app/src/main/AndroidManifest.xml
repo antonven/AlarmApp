@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="myapps.wycoco.com.alarmapp">
-    <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -22,7 +23,9 @@
         <receiver
             android:name=".AlarmReceiver"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
+
+        <activity android:name=".StopAlarm"></activity>
     </application>
 
 </manifest>

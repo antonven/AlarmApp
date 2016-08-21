@@ -10,23 +10,20 @@
     tools:context="myapps.wycoco.com.alarmapp.SetAlarm">
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Set Alarm"
         android:id="@+id/btnAlarm"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/btnDate"
-        android:layout_toStartOf="@+id/btnDate"
-        android:layout_marginBottom="36dp" />
+        android:layout_below="@+id/timePicker"
+        android:layout_centerHorizontal="true" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Stop Alarm"
+        android:text="Cancel Alarm"
         android:id="@+id/btnStop"
-        android:layout_alignBottom="@+id/btnAlarm"
-        android:layout_toRightOf="@+id/btnDate"
-        android:layout_toEndOf="@+id/btnDate" />
+        android:layout_below="@+id/btnAlarm"
+        android:layout_centerHorizontal="true" />
 
     <TimePicker
         android:layout_width="wrap_content"
@@ -42,8 +39,11 @@
         android:layout_height="wrap_content"
         android:text="Set Date"
         android:id="@+id/btnDate"
-        android:layout_below="@+id/timePicker"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="93dp"
+        android:background="#09886b86" />
 
     <ListView
         android:layout_width="wrap_content"
@@ -52,6 +52,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:choiceMode="singleChoice" />
+        android:choiceMode="singleChoice"
+        android:stackFromBottom="false" />
 
 </RelativeLayout>
