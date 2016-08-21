@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.net.Uri;
 
 
@@ -12,7 +14,7 @@ import android.net.Uri;
 public class AlarmReceiver extends BroadcastReceiver {
     public AlarmReceiver() {
     }
-
+    Uri songUri2;
     @Override
     public void onReceive(Context context, Intent intent) {
         MediaPlayer mp;
@@ -24,10 +26,11 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 
 
-//        String son = String.valueOf((Uri)intent.getParcelableExtra("song"));
+//        String son =
+        songUri2 = intent.getParcelableExtra("song");
 
         Intent al = new Intent(context, StopAlarm.class);
-        al.putExtra("song", intent.getParcelableExtra("song"));
+        al.putExtra("song1", songUri2);
         al.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(al);
 

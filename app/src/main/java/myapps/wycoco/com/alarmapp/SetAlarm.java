@@ -160,7 +160,6 @@ public class SetAlarm extends AppCompatActivity implements View.OnClickListener,
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
             songUri = data.getData();
-
         }
 
     }

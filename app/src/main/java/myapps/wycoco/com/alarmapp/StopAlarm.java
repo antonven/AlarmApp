@@ -2,6 +2,8 @@ package myapps.wycoco.com.alarmapp;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,21 +17,27 @@ public class StopAlarm extends AppCompatActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stop_alarm);
-
         btnStop = (Button)findViewById(R.id.btnStop);
 
         Intent intent = getIntent();
         btnStop.setOnClickListener(this);
 
+
+
         try{
-            mp = MediaPlayer.create(this, (Uri)intent.getParcelableExtra("song"));
+            mp = MediaPlayer.create(this, (Uri)intent.getParcelableExtra("song1"));
         }catch(NullPointerException e) {
+            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Ringtone r = RingtoneManager.getRingtone(this, notification);
+            r.play();
             mp = MediaPlayer.create(this, R.raw.closer);
         }
         mp.start();
     }
 
-
+//    public  void OnStart(Intent intent, int startId){
+//        super.onStart(intent, startId);
+//    }
     @Override
     public void onClick(View v) {
         mp.stop();
