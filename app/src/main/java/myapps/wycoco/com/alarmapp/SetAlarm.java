@@ -4,11 +4,14 @@ import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,13 +42,14 @@ public class SetAlarm extends AppCompatActivity implements View.OnClickListener,
     Intent intent;
     ListView songView;
     ListAdapter adap;
+    String sTitle, sArtist;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_alarm);
-        String[] song = {""};
+        String[] song = {"Choose an alarm song"};
         Intent intent = getIntent();
 
 
@@ -137,6 +141,7 @@ public class SetAlarm extends AppCompatActivity implements View.OnClickListener,
 
         am = (AlarmManager)getSystemService(ALARM_SERVICE);
         am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pi);
+        songUri = null;
     }
 
     @Override
@@ -144,11 +149,14 @@ public class SetAlarm extends AppCompatActivity implements View.OnClickListener,
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         Uri uri = Uri.parse(Environment.getExternalStorageDirectory().getPath() + "/Audio/");
         intent.setDataAndType(uri, "audio/*");
+//        intent.setDataAndType(uri, "audio/*");
         startActivityForResult(Intent.createChooser(intent, "Open"), 1);
+//        String scheme = uri.getScheme();
+        String[] title = {};
+//        Cursor curs = this.getContentResolver().query(uri, null, null, null, null);
+//        scheme = curs.getString();
 
 
-//        adap = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, son);
-//        songView.setAdapter(adap);
 
 
 
@@ -160,6 +168,26 @@ public class SetAlarm extends AppCompatActivity implements View.OnClickListener,
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
             songUri = data.getData();
+            Cursor s = null;
+            try{
+                s = getContentResolver().query(songUri,new String[]{
+                                MediaStore.Audio.Media.TITLE,
+                                MediaStore.Audio.Media.ARTIST},
+                        null,null,null);
+                if(s != null && s.moveToFirst()){
+
+                    sTitle = s.getString(0);
+                    sArtist = s.getString(1);
+                    String[] song1 = {sTitle + "-" + sArtist};
+                    adap = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, song1);
+                    songView.setAdapter(adap);
+//                    songView.setText(name + ", " + number);
+
+                }
+            }finally {
+                if(s!=null)
+                    s.close();
+            }
         }
 
     }
