@@ -1,5 +1,5 @@
 
-//public void onActivityResu
+
 package myapps.wycoco.com.alarmapp;
 
 import android.app.Activity;
@@ -53,8 +53,8 @@ public class StopAlarm extends AppCompatActivity{
         try{
             mp = MediaPlayer.create(this, (Uri)intent.getParcelableExtra("song1"));
         }catch(NullPointerException e) {
-            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            Ringtone r = RingtoneManager.getRingtone(this, notification);
+            Uri alarm = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+            Ringtone r = RingtoneManager.getRingtone(this, alarm);
             r.play();
             mp = MediaPlayer.create(this, R.raw.closer);
         }
@@ -90,24 +90,32 @@ public class StopAlarm extends AppCompatActivity{
 
 
 
-
+//PLEASE USE YOUR PHONE AS EMULATOR TO HAVE EXPECTED RESULTS BECAUSE MY EMULATOR HAS NO CONTACTS. IT MIGHT CRASH!!!!!
         btnStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
                     if(number != null) {
                         mp.stop();
+
+                        mp.reset();
                         SmsManager sms = SmsManager.getDefault();
-                        sms.sendTextMessage(number, null, txtMsg.getText().toString(), null, null);
+                        sms.sendTextMessage("09435289068", null, txtMsg.getText().toString(), null, null);
                         Toast.makeText(StopAlarm.this, "Alarm Stopped and Message sent!", Toast.LENGTH_LONG).show();
                         Intent gb = new Intent(StopAlarm.this, MainActivity.class);
                         gb.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(gb);
-                    }else{
-                        Toast.makeText(StopAlarm.this, "Please Select contact!", Toast.LENGTH_SHORT).show();
                     }
+                    else{
+                        Toast.makeText(StopAlarm.this, "Please Select contact!", Toast.LENGTH_SHORT).show();
+                        mp.stop();
+                }
                 }catch (Exception e){
                     Toast.makeText(StopAlarm.this, "You have 0 Load balance to send this message!", Toast.LENGTH_SHORT).show();
+                    mp.stop();
+                    Intent gb = new Intent(StopAlarm.this, MainActivity.class);
+                    gb.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(gb);
                 }
 
             }

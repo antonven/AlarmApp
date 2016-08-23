@@ -4,14 +4,10 @@ import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,10 +21,7 @@ import android.widget.ListView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import java.io.File;
-import java.sql.Time;
-import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.Calendar;
 
 public class SetAlarm extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
@@ -38,7 +31,6 @@ public class SetAlarm extends AppCompatActivity implements View.OnClickListener,
     PendingIntent pi;
     Uri songUri;
     AlarmManager am;
-    Bundle b;
     Intent intent;
     ListView songView;
     ListAdapter adap;
@@ -141,26 +133,25 @@ public class SetAlarm extends AppCompatActivity implements View.OnClickListener,
 
         am = (AlarmManager)getSystemService(ALARM_SERVICE);
         am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pi);
-        songUri = null;
+
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        songUri = null;
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         Uri uri = Uri.parse(Environment.getExternalStorageDirectory().getPath() + "/Audio/");
         intent.setDataAndType(uri, "audio/*");
-//        intent.setDataAndType(uri, "audio/*");
+
         startActivityForResult(Intent.createChooser(intent, "Open"), 1);
-//        String scheme = uri.getScheme();
-        String[] title = {};
-//        Cursor curs = this.getContentResolver().query(uri, null, null, null, null);
-//        scheme = curs.getString();
 
 
 
 
 
-//        Arrays.toString(song) = songUri.toString();
+
+
+
     }
 
     @Override
@@ -181,7 +172,7 @@ public class SetAlarm extends AppCompatActivity implements View.OnClickListener,
                     String[] song1 = {sTitle + "-" + sArtist};
                     adap = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, song1);
                     songView.setAdapter(adap);
-//                    songView.setText(name + ", " + number);
+
 
                 }
             }finally {
